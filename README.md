@@ -1,3 +1,7 @@
+Origin Author: https://github.com/Yuhanawa
+
+Fork from https://github.com/Yuhanawa/astro-charm
+
 ## 🚀 Project Structure
 
 Inside of your Astro project, you'll see the following folders and files:
