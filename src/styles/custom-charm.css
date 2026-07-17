@@ -1,3 +1,10 @@
+/* =========================================================================
+   似水流年 · 自定义样式
+   由主题自动加载（astro-charm 检测到 src/styles/custom-charm.css 即引入）
+   本文件为「非分层」样式，优先级高于主题 @layer charm，可安全覆盖主题变量。
+   ========================================================================= */
+
+/* ===== 1. 右侧装饰背景图（宽屏显示，已改用 webp 更适配 Chrome，png 作为回退保留） ===== */
 @media (width >= 52rem) {
   html.charm body {
     position: relative;
@@ -5,7 +12,8 @@
 
     &::before {
       content: "";
-      background-image: url(./../assets/02.png);
+      /* 现代浏览器均支持 webp；原 png 已保留在 assets 目录作备份 */
+      background-image: url(./../assets/02.webp);
       background-size: contain;
       background-repeat: no-repeat;
       background-position: right;
@@ -19,9 +27,275 @@
     }
   }
 
-  html.charm.dark body {
-    &::before {
-      filter: brightness(0.8);
-    }
+  html.charm.dark body::before {
+    filter: brightness(0.8);
+  }
+}
+
+/* ===== 2. 修复切换页面时的横向抖动 =====
+   根因：内容少的页面无滚动条、内容多的页面有滚动条，视口宽度随之变化，
+   导致正文左右跳动。始终为滚动条预留空槽，宽度即恒定。 */
+html.charm {
+  scrollbar-gutter: stable;
+}
+
+/* ===== 3. 中文正文排版 =====
+   描述性段落两端对齐，长段落左右边缘更整齐；标题、meta、代码块等不受影响。 */
+html.charm article p,
+html.charm article li {
+  text-align: justify;
+  text-justify: inter-character;
+}
+
+/* 行内代码与链接不参与断行拉伸，避免两端对齐时被拉出缝隙 */
+html.charm article p code,
+html.charm article li code {
+  word-break: keep-all;
+}
+
+/* ===== 4. 媒体按原始比例完整展示，不裁切、不留黑边 ===== */
+html.charm article img,
+html.charm article video,
+html.charm article iframe.video-embed {
+  max-width: 100%;
+  height: auto;
+}
+
+/* =========================================================================
+   5. 多配色主题（data-palette 与明暗 .dark 正交组合，各配色均保证高对比）
+   —— 默认（无 data-palette）沿用主题自带的暖白 / 暗夜
+   —— 其余每个配色都提供 light 与 .dark 两套，跟随右下角切换器选择
+   ========================================================================= */
+
+/* ---------- 羊皮纸 ---------- */
+html.charm[data-palette="parchment"] {
+  --charm-highlight-color: #a86a3c;
+  --charm-highlight-color-2: #a86a3c33;
+  --charm-highlight-color-1: #a86a3c1a;
+  --charm-background-color: #f4ecd9;
+  --charm-font-color: #4a3f30;
+  --charm-github-card-background: #fbf5ea;
+  --charm-card-background: #fbf5ea;
+  --charm-card-background-8: #fbf5eacc;
+  --charm-contrast-color: #cdb38a;
+  --charm-contrast-color-8: #cdb38acc;
+  --charm-contrast-color-5: #cdb38a80;
+  --charm-contrast-color-3: #cdb38a4d;
+  --charm-contrast-color-2: #cdb38a33;
+  --charm-contrast-color-1: #cdb38a1a;
+}
+html.charm[data-palette="parchment"].dark {
+  --charm-highlight-color: #d69a63;
+  --charm-highlight-color-2: #d69a6333;
+  --charm-highlight-color-1: #d69a631a;
+  --charm-background-color: #2a2318;
+  --charm-font-color: #ece3d0ee;
+  --charm-github-card-background: #33291b;
+  --charm-card-background: #33291b;
+  --charm-card-background-8: #33291bcc;
+  --charm-contrast-color: #6b573a;
+  --charm-contrast-color-8: #6b573acc;
+  --charm-contrast-color-5: #6b573a80;
+  --charm-contrast-color-3: #6b573a4d;
+  --charm-contrast-color-2: #6b573a33;
+  --charm-contrast-color-1: #6b573a1a;
+}
+
+/* ---------- 松林 ---------- */
+html.charm[data-palette="forest"] {
+  --charm-highlight-color: #4a7d3f;
+  --charm-highlight-color-2: #4a7d3f33;
+  --charm-highlight-color-1: #4a7d3f1a;
+  --charm-background-color: #e7efdc;
+  --charm-font-color: #33402a;
+  --charm-github-card-background: #f1f6e8;
+  --charm-card-background: #f1f6e8;
+  --charm-card-background-8: #f1f6e8cc;
+  --charm-contrast-color: #b7cfa0;
+  --charm-contrast-color-8: #b7cfa0cc;
+  --charm-contrast-color-5: #b7cfa080;
+  --charm-contrast-color-3: #b7cfa04d;
+  --charm-contrast-color-2: #b7cfa033;
+  --charm-contrast-color-1: #b7cfa01a;
+}
+html.charm[data-palette="forest"].dark {
+  --charm-highlight-color: #7fb06a;
+  --charm-highlight-color-2: #7fb06a33;
+  --charm-highlight-color-1: #7fb06a1a;
+  --charm-background-color: #18211a;
+  --charm-font-color: #dfebd8ee;
+  --charm-github-card-background: #202a20;
+  --charm-card-background: #202a20;
+  --charm-card-background-8: #202a20cc;
+  --charm-contrast-color: #3d5236;
+  --charm-contrast-color-8: #3d5236cc;
+  --charm-contrast-color-5: #3d523680;
+  --charm-contrast-color-3: #3d52364d;
+  --charm-contrast-color-2: #3d523633;
+  --charm-contrast-color-1: #3d52361a;
+}
+
+/* ---------- 海蓝 ---------- */
+html.charm[data-palette="ocean"] {
+  --charm-highlight-color: #256d9c;
+  --charm-highlight-color-2: #256d9c33;
+  --charm-highlight-color-1: #256d9c1a;
+  --charm-background-color: #e6f0f7;
+  --charm-font-color: #2b3a47;
+  --charm-github-card-background: #f0f6fb;
+  --charm-card-background: #f0f6fb;
+  --charm-card-background-8: #f0f6fbcc;
+  --charm-contrast-color: #a9cbe0;
+  --charm-contrast-color-8: #a9cbe0cc;
+  --charm-contrast-color-5: #a9cbe080;
+  --charm-contrast-color-3: #a9cbe04d;
+  --charm-contrast-color-2: #a9cbe033;
+  --charm-contrast-color-1: #a9cbe01a;
+}
+html.charm[data-palette="ocean"].dark {
+  --charm-highlight-color: #4aa3d8;
+  --charm-highlight-color-2: #4aa3d833;
+  --charm-highlight-color-1: #4aa3d81a;
+  --charm-background-color: #0f1f2e;
+  --charm-font-color: #dbe9f4ee;
+  --charm-github-card-background: #16293a;
+  --charm-card-background: #16293a;
+  --charm-card-background-8: #16293acc;
+  --charm-contrast-color: #294a66;
+  --charm-contrast-color-8: #294a66cc;
+  --charm-contrast-color-5: #294a6680;
+  --charm-contrast-color-3: #294a664d;
+  --charm-contrast-color-2: #294a6633;
+  --charm-contrast-color-1: #294a661a;
+}
+
+/* ---------- 樱粉 ---------- */
+html.charm[data-palette="sakura"] {
+  --charm-highlight-color: #c15072;
+  --charm-highlight-color-2: #c1507233;
+  --charm-highlight-color-1: #c150721a;
+  --charm-background-color: #fbeef1;
+  --charm-font-color: #4a3540;
+  --charm-github-card-background: #fdf4f6;
+  --charm-card-background: #fdf4f6;
+  --charm-card-background-8: #fdf4f6cc;
+  --charm-contrast-color: #f0c4d0;
+  --charm-contrast-color-8: #f0c4d0cc;
+  --charm-contrast-color-5: #f0c4d080;
+  --charm-contrast-color-3: #f0c4d04d;
+  --charm-contrast-color-2: #f0c4d033;
+  --charm-contrast-color-1: #f0c4d01a;
+}
+html.charm[data-palette="sakura"].dark {
+  --charm-highlight-color: #e58aa2;
+  --charm-highlight-color-2: #e58aa233;
+  --charm-highlight-color-1: #e58aa21a;
+  --charm-background-color: #271a20;
+  --charm-font-color: #f2e2e8ee;
+  --charm-github-card-background: #31232a;
+  --charm-card-background: #31232a;
+  --charm-card-background-8: #31232acc;
+  --charm-contrast-color: #4d3540;
+  --charm-contrast-color-8: #4d3540cc;
+  --charm-contrast-color-5: #4d354080;
+  --charm-contrast-color-3: #4d35404d;
+  --charm-contrast-color-2: #4d354033;
+  --charm-contrast-color-1: #4d35401a;
+}
+
+/* =========================================================================
+   6. 右下角配色切换器（由 astro.config.mjs 注入的脚本动态创建）
+   自身使用主题变量着色，因此在任何配色下都清晰可读。
+   ========================================================================= */
+#charm-palette-switcher {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+}
+
+#charm-palette-switcher .cps-toggle {
+  width: 2.9rem;
+  height: 2.9rem;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--charm-font-light-color, #fff);
+  background: var(--charm-highlight-color);
+  box-shadow: 0 4px 14px #00000026;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+#charm-palette-switcher .cps-toggle:hover {
+  transform: rotate(30deg) scale(1.06);
+  box-shadow: 0 6px 20px #00000033;
+}
+#charm-palette-switcher .cps-toggle svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+#charm-palette-switcher .cps-panel {
+  display: none;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.45rem;
+  border-radius: 0.85rem;
+  background: var(--charm-card-background);
+  border: 1px solid var(--charm-contrast-color-3);
+  box-shadow: 0 8px 24px #00000026;
+  transform-origin: bottom right;
+}
+#charm-palette-switcher.open .cps-panel {
+  display: flex;
+  animation: cps-pop 0.18s ease;
+}
+@keyframes cps-pop {
+  from { opacity: 0; transform: translateY(6px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+#charm-palette-switcher .cps-swatch {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.4rem 0.7rem 0.4rem 0.5rem;
+  border: none;
+  border-radius: 0.55rem;
+  cursor: pointer;
+  white-space: nowrap;
+  color: var(--charm-font-color);
+  background: transparent;
+  transition: background 0.2s ease;
+}
+#charm-palette-switcher .cps-swatch:hover {
+  background: var(--charm-highlight-color-1);
+}
+#charm-palette-switcher .cps-swatch .cps-dot {
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid #0000001a;
+}
+#charm-palette-switcher .cps-swatch.active {
+  background: var(--charm-highlight-color-2);
+  font-weight: 600;
+}
+#charm-palette-switcher .cps-swatch.active .cps-dot {
+  box-shadow: 0 0 0 2px var(--charm-background-color), 0 0 0 4px var(--charm-highlight-color);
+}
+
+@media (width <= 42rem) {
+  #charm-palette-switcher {
+    right: 0.9rem;
+    bottom: 0.9rem;
   }
 }
