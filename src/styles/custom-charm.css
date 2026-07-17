@@ -12,8 +12,8 @@
 
     &::before {
       content: "";
-      /* 现代浏览器均支持 webp；原 png 已保留在 assets 目录作备份 */
-      background-image: url(./../assets/02.webp);
+      /* 背景图由右下角设置面板切换（取自 public/backgrounds/，默认第一张） */
+      background-image: var(--charm-bg-image, url("/backgrounds/Promeia-1.webp"));
       background-size: contain;
       background-repeat: no-repeat;
       background-position: right;
@@ -204,10 +204,22 @@ html.charm[data-palette="sakura"].dark {
 }
 
 /* =========================================================================
-   6. 右下角配色切换器（由 astro.config.mjs 注入的脚本动态创建）
+   6. 背景特效画布（全屏，位于背景图之上、内容之下）
+   ========================================================================= */
+#charm-fx {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* =========================================================================
+   7. 右下角外观设置面板（配色 / 背景图 / 背景特效，由注入脚本动态创建）
    自身使用主题变量着色，因此在任何配色下都清晰可读。
    ========================================================================= */
-#charm-palette-switcher {
+#charm-settings {
   position: fixed;
   right: 1.25rem;
   bottom: 1.25rem;
@@ -216,10 +228,10 @@ html.charm[data-palette="sakura"].dark {
   flex-direction: column;
   align-items: flex-end;
   gap: 0.6rem;
-  font-size: 0.9rem;
+  font-size: 0.86rem;
 }
 
-#charm-palette-switcher .cps-toggle {
+#charm-settings .cs-toggle {
   width: 2.9rem;
   height: 2.9rem;
   border: none;
@@ -231,71 +243,137 @@ html.charm[data-palette="sakura"].dark {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.3s ease, box-shadow 0.25s ease;
 }
-#charm-palette-switcher .cps-toggle:hover {
-  transform: rotate(30deg) scale(1.06);
+#charm-settings .cs-toggle:hover {
+  transform: rotate(90deg) scale(1.06);
   box-shadow: 0 6px 20px #00000033;
 }
-#charm-palette-switcher .cps-toggle svg {
+#charm-settings .cs-toggle svg {
   width: 1.5rem;
   height: 1.5rem;
 }
 
-#charm-palette-switcher .cps-panel {
+#charm-settings .cs-panel {
   display: none;
   flex-direction: column;
-  gap: 0.15rem;
-  padding: 0.45rem;
-  border-radius: 0.85rem;
+  gap: 0.7rem;
+  width: 15.5rem;
+  max-height: 72vh;
+  overflow-y: auto;
+  padding: 0.9rem;
+  border-radius: 0.9rem;
   background: var(--charm-card-background);
   border: 1px solid var(--charm-contrast-color-3);
-  box-shadow: 0 8px 24px #00000026;
+  box-shadow: 0 10px 30px #00000026;
   transform-origin: bottom right;
 }
-#charm-palette-switcher.open .cps-panel {
+#charm-settings.open .cs-panel {
   display: flex;
-  animation: cps-pop 0.18s ease;
+  animation: cs-pop 0.18s ease;
 }
-@keyframes cps-pop {
-  from { opacity: 0; transform: translateY(6px) scale(0.96); }
+@keyframes cs-pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-#charm-palette-switcher .cps-swatch {
+#charm-settings .cs-h {
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--charm-highlight-color);
+  margin-bottom: 0.45rem;
+  opacity: 0.9;
+}
+#charm-settings .cs-body {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+#charm-settings .cs-item {
+  display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.4rem 0.7rem 0.4rem 0.5rem;
-  border: none;
-  border-radius: 0.55rem;
+  gap: 0.4rem;
+  padding: 0.3rem 0.55rem 0.3rem 0.4rem;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
   cursor: pointer;
   white-space: nowrap;
   color: var(--charm-font-color);
-  background: transparent;
-  transition: background 0.2s ease;
+  background: var(--charm-contrast-color-1);
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
-#charm-palette-switcher .cps-swatch:hover {
+#charm-settings .cs-item:hover {
   background: var(--charm-highlight-color-1);
 }
-#charm-palette-switcher .cps-swatch .cps-dot {
-  width: 1.15rem;
-  height: 1.15rem;
+#charm-settings .cs-item .cs-dot {
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
   flex-shrink: 0;
   border: 1px solid #0000001a;
+  background-size: cover;
 }
-#charm-palette-switcher .cps-swatch.active {
+#charm-settings .cs-item.on {
   background: var(--charm-highlight-color-2);
+  border-color: var(--charm-highlight-color);
   font-weight: 600;
 }
-#charm-palette-switcher .cps-swatch.active .cps-dot {
-  box-shadow: 0 0 0 2px var(--charm-background-color), 0 0 0 4px var(--charm-highlight-color);
+#charm-settings .cs-empty {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  padding: 0.2rem;
+}
+
+/* =========================================================================
+   8. 右上角关闭按钮（仅内容页显示，点击带动画返回导航）
+   与首页 search 按钮不在同一页，因此不会重合。
+   ========================================================================= */
+#charm-close {
+  position: fixed;
+  top: 0.6rem;
+  right: 1rem;
+  z-index: 60;
+  width: 2.3rem;
+  height: 2.3rem;
+  border: 1px solid var(--charm-contrast-color-3);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--charm-font-color);
+  background: var(--charm-card-background-8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+#charm-close:hover {
+  opacity: 1;
+  color: var(--charm-highlight-color);
+  background: var(--charm-contrast-color-2);
+  transform: rotate(90deg);
+}
+#charm-close svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+/* 关闭动画：内容淡出并轻微缩小，随后跳转回导航 */
+html.charm body.charm-closing main {
+  animation: charm-close-out 0.34s ease forwards;
+}
+@keyframes charm-close-out {
+  to { opacity: 0; transform: scale(0.97) translateY(8px); }
 }
 
 @media (width <= 42rem) {
-  #charm-palette-switcher {
+  #charm-settings {
     right: 0.9rem;
     bottom: 0.9rem;
+  }
+  #charm-close {
+    top: 0.5rem;
+    right: 0.7rem;
   }
 }
