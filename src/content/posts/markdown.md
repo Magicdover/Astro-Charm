@@ -82,8 +82,12 @@ $$
 
 ## 视频
 
-把 YouTube 或 Bilibili 的视频链接单独放在一行，即可自动嵌入播放器；也可以像下面这样，直接粘贴一段 `<iframe>`：
+把 YouTube 或 Bilibili 的视频链接**单独放在一行**，即可自动嵌入播放器，例如：
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/oZpYEEcvu5I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+```text
+https://www.bilibili.com/video/BV1GJ411x7h7
+```
+
+（本页不内嵌实际视频，以免因网络环境导致加载失败。）
 
 [^gfm]: 本主题遵循 [GitHub Flavored Markdown](https://github.github.com/gfm/) 规范。
