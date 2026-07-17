@@ -1,5 +1,5 @@
 ---
-title: About
+title: 关于
 icon:
   {
     default: "solar:ghost-broken",
@@ -7,267 +7,43 @@ icon:
     active: "solar:ghost-smile-bold-duotone",
   }
 published: 2024-11-30
-updated: 2024-12-28
-index: 10
+updated: 2026-07-17
+index: 1
 ---
 
-# Astro Theme: Charm Readme
+# 关于这里，也关于我
 
-Beautiful, simple and easy-to-use blog theme
+你好，欢迎来到「似水流年」。
 
-:::tip
-This page is [the README.md of the Github repository](https://github.com/Yuhanawa/astro-charm), but it may not be updated in time.
+这里是一个安放文字的角落。我是一个喜欢写代码、也喜欢写点东西的普通人——白天与逻辑和 bug 打交道，夜里则用文字，记录那些不那么「有用」、却让生活发亮的瞬间。在技术与艺术之间寻找平衡，大概就是这个小站的底色。
+
+## 最近在琢磨的事
+
+写代码的方式，这一两年变了很多。如今我大半时间是在和 AI 结对：用 Claude Code 和 Codex 做所谓的 vibe coding——把想法用自然语言讲清楚，让模型先把脚手架搭起来，我再来把关、打磨、做取舍。顺手的时候，那种「人负责品味、机器负责体力」的协作，真的很上头。
+
+顺着这条线，我最近格外关注大模型背后的对齐技术，尤其是**基于人类反馈的强化学习**（RLHF）——模型为什么会变得「懂事」，人的偏好又是怎样被一点点喂进去的。这不只是好奇，也藏着我对职业方向的一点野心：希望能在这个方向再往里走一步，把爱好慢慢磨成安身立命的本事。
+
+## 屏幕之外
+
+我不是个只会对着屏幕的人。最近最上头的游戏是**绝区零**，画面和打击感都对我的胃口；一时冲动，还入手了它和雅迪联名的那台电动车——**白鲨二代**，骑出门总有种「把新艾利都开上马路」的中二快乐。
+
+另一件让我有点睡不好的事，是**世界杯**。决赛马上就要打响，最被看好的夺冠热门法国意外出局，实在替他们遗憾；而卫冕冠军阿根廷能不能再次登顶，成了眼下最大的悬念。我把这届的晋级形势整理成了一张图，放在 [世界杯](/worldcup) 那一页，欢迎来一起紧张。
+
+## 这个博客写些什么
+
+我不想把它做成一个只谈技术的博客，也不想只写风花雪月。所以你在这里会看到很杂的东西：
+
+- **技术与编程**：把折腾工具、踩坑与顿悟的过程记下来
+- **阅读与观影**：读过的书、看过的电影，以及它们留下的回响
+- **旅行与生活**：那些值得慢下来的时刻，一杯咖啡，一段旅程
+- **胡思乱想**：关于时间、成长，和一切想不明白的事
+
+:::tip[关于更新]
+这里更新得随性，想到什么写什么。与其追求高产，我更希望每一篇，都是自己真正想说的话。
 :::
 
-Note: The image on the right in the `Live Demo` is not part of the Charm theme
+## 聊聊
 
-## Features
+如果某篇文章，恰好也说中了你的某个瞬间，那真是再好不过的事。欢迎通过侧边栏的社交链接，或到 [友情链接](/links) 里串门，和我聊聊代码，或聊聊生活。
 
-- Built with Astro v5
-- Desktop and Mobile support
-- High PageSpeed score
-  - 100! [Report from Dec 29, 2024](https://pagespeed.web.dev/analysis/https-astro-charm-vercel-app/g1cxq98foh)
-  - view new [PageSpeed](https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fastro-charm.vercel.app%2F)
-- Category and Tag page
-- Dark mode
-- Code Block
-- Search
-- Comments support (giscus)
-- Google Analytics support
-- Sitemap
-- RSS
-- Custom
-  - [How to customize the theme](https://astro-charm.vercel.app/posts/custom)
-
-## How to use
-
-1. Run the following command to create a new project with `astro-charm` theme.
-
-```bash
-pnpm create astro-theme@latest with-theme astro-charm
-```
-
-2. Into your project and Install `@iconify-json/simple-icons` and `@iconify-json/solar`.
-
-```bash
-pnpm add @iconify-json/simple-icons
-pnpm add @iconify-json/solar
-```
-
-3. Add `src/content.config.ts` to your project.
-
-```ts
-import { collections as charmCollections } from "astro-charm/content";
-export const collections = {
-  // your other collections
-  ...charmCollections,
-};
-```
-
-4. Modify config and enjoy it!
-
-Note: you need to add `site` to `astro.config.ts` file, because `charm` use it for `sitemap` and `rss`.
-
-To learn more, see: [Config](#config)
-
-<details>
-  <summary>Install to existing project</summary>
-
-1. Install `astro-charm`, `@iconify-json/simple-icons` and `@iconify-json/solar` to your project.
-
-```bash
-pnpm astro add astro-charm
-pnpm add @iconify-json/simple-icons
-pnpm add @iconify-json/solar
-```
-
-2. Modify `src/content.config.ts` file.
-
-```ts
-import { collections as charmCollections } from "astro-charm/content";
-export const collections = {
-  // your other collections
-  ...charmCollections,
-};
-```
-
-3. Modify `astro.config.ts` file, you can use following command to modify it.
-
-```bash
-pnpm create astro-theme@latest init astro-charm
-```
-
-Or you can modify it manually.
-
-```ts
-import { defineConfig } from "astro/config";
-import charm from "astro-charm";
-
-export default defineConfig({
-  prefetch: true,
-  site: "<your-site-url>",
-
-  integrations: [
-    charm({
-      config: {
-        lang: "en", // for HTML's lang attribute and RSS
-        title: "Title on home page", // for seo on home page
-        description: "Description on home page", // for seo on home page
-        side: {
-          title: "Title",
-          sub: "Sub title",
-          bio: "Your bio, about 50~90 characters, automatic line wrap",
-        },
-        // more config
-      },
-    }),
-  ],
-});
-```
-
-</details>
-
-
-## Config
-
-You need to add `site` to `astro.config.ts` file, because `charm` use it for `sitemap` and `rss`.
-
-### Minimal config
-
-```ts
-import { defineConfig } from "astro/config";
-import charm from "astro-charm";
-
-export default defineConfig({
-  prefetch: true,
-  site: "<your-site-url>",
-
-  integrations: [
-    charm({
-      config: {
-        lang: "en", // for HTML's lang attribute and RSS
-        title: "Title on home page", // for seo on home page
-        description: "Description on home page", // for seo on home page
-        side: {
-          title: "Title",
-          sub: "Sub title",
-          bio: "Your bio, about 50~90 characters, automatic line wrap",
-        },
-      },
-    }),
-  ],
-});
-```
-
-### [Config schema](https://github.com/Yuhanawa/astro-charm/blob/main/package/index.ts#L59-L152)
-
-```ts
-const configSchema = z.object({
-  lang: z.string(),
-  title: z.string(),
-  titleSuffix: z.string().or(z.boolean()).default(true),
-  description: z.string().optional(),
-  author: z.string().optional(),
-  placeholderImage: z.string().min(1).optional(),
-  licenseId: z.enum([...licenses] as [string, ...string[]]).optional(),
-  rss: z.boolean().default(true),
-  googleAnalyticsId: z.string().optional(),
-  font: z
-    .enum(["auto", "full", "only-en", "disabled", "dynamic"])
-    .default("auto"),
-  shootingStar: z.boolean().default(true),
-  side: z.object({
-    title: z.string(),
-    sub: z.string(),
-    bio: z.string(),
-    navHome: z
-      .object({
-        title: z.string().default("Home"),
-        link: z.string().default("/"),
-        icon: iconStringOrLightDarkOrWithStates.default({
-          default: "solar:file-text-broken",
-          hover: "solar:file-smile-outline",
-          active: "solar:file-smile-bold-duotone",
-        }),
-      })
-      .default({}),
-    footer: z
-      .array(
-        z.object({
-          title: z.string(),
-          link: z.string(),
-          icon: iconStringOrLightDarkOrWithStates,
-        }),
-      )
-      .min(1)
-      .default([
-        {
-          title: "Twitter",
-          link: "https://x.com/",
-          icon: "simple-icons:twitter",
-        },
-        {
-          title: "GitHub",
-          link: "https://github.com/yuhanawa/astro-charm",
-          icon: "simple-icons:github",
-        },
-      ]),
-    navStyle: z.enum(["default", "only-icon", "only-title"]).default("default"),
-    footerStyle: z
-      .enum(["default", "only-icon", "only-title"])
-      .default("default"),
-  }),
-  markdown: z
-    .object({
-      colorizedBrackets: z
-        .object({
-          explicitTrigger: z.boolean().default(false), // if true, ```ts colorize-brackets
-        })
-        .default({}),
-      twoslash: z
-        .object({
-          explicitTrigger: z.boolean().default(true), // if true, ```ts twoslash
-        })
-        .default({}),
-    })
-    .default({}),
-  giscus: z
-    .object({
-      repo: z.string(),
-      repoId: z.string(),
-      category: z.string(),
-      categoryId: z.string(),
-      mapping: z
-        .enum(["pathname", "url", "title", "og:title"])
-        .default("pathname"),
-      strict: z.boolean().default(false),
-      reactions: z.boolean().default(true),
-      emitMetadata: z.boolean().default(false),
-      inputPosition: z.enum(["top", "bottom"]).default("top"),
-      theme: z
-        .object({
-          light: z.string(),
-          dark: z.string(),
-        })
-        .default({
-          light: "light",
-          dark: "dark",
-        }),
-    })
-    .optional(),
-});
-```
-
-## Troubleshooting
-
-### [CouldNotTransformImage] Could not transform image
-
-Please install Sharp (`sharp`) manually into your project
-
-```bash
-pnpm add sharp
-```
-
-## Questions & Suggestions
-
-If you have any questions or suggestions, feel free to open an issue. All PRs are welcome!
+愿你我都能在似水的流年里，守住一点自己真正在意的东西。

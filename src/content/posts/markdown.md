@@ -1,45 +1,44 @@
 ---
-title: Markdown Example
+title: 排版与 Markdown 示例
 published: 2024-12-02
-updated: 2024-12-02
-description: A simple example of a Markdown blog post.
-tags: [Markdown, Demo]
-category: Examples
+updated: 2026-07-17
+description: 一篇用来展示本主题排版能力的示例：强调、列表、代码、引用、提示框、公式与视频。
+tags: [Markdown, 示例]
+category: 示例
 ---
 
-[GitHub Flavored Markdown Spec](https://github.github.com/gfm/)
+这是一篇示例文章，用来展示本主题支持的各种 Markdown 与排版能力，你可以把它当作写作时的速查表。[^gfm]
 
-Markdown is a plain text format for writing structured documents, based on conventions for indicating formatting in email and usenet posts.[^what-is-markdown]
+## 强调
 
-## toc
+*斜体：用 `*` 或 `_` 包裹*
 
-## Emphasis
+**加粗：用两个 `*` 或两个 `_` 包裹**
 
-*italic: use `*` or `_`*
+~~删除线：用 `~~` 包裹~~
 
-**bold: use `**` or `__`**
+## 列表
 
-~~Strikethrough: use `~~`~~
+有序列表：
 
-## Lists
+1. 第一项
+2. 第二项
+3. 第三项
 
-1. First item
-2. Second item
-3. Third item
+无序列表：
 
-- starting with `+`
+- 一个要点
+- 另一个要点
 
-* starting with `-`
+任务列表：
 
-- starting with `*`
+- [x] 立一个 flag
+- [x] 努力并坚持
+- [ ] 让 flag 成真
 
-## Task lists
+## 代码
 
-- [x] Build a dream
-- [x] Work hard and persevere
-- [ ] Make the dream come true
-
-## Code
+行内代码写作 `const answer = 42`；代码块则支持语法高亮：
 
 ```javascript
 function life() {
@@ -55,19 +54,36 @@ function life() {
 }
 ```
 
-## Blockquotes
+## 引用
 
-> Blockquotes
+> 一段引用。
 >
-> > Nested blockquotes
+> > 引用还可以嵌套。
 
----
+## 提示框
 
-## Videos
+本主题内置多种提示框，语法为 `:::类型[可选标题] … :::`：
 
-You can copy the embed code from YouTube or other platforms, and paste it in the markdown file.
-We also provide a convenient method in [markdown-extended#video-embed](/posts/markdown-extended#video-embed)
+:::tip[小提示]
+用来补充一些「知道了会更好」的信息。
+:::
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/oZpYEEcvu5I?si=y7J4aWD-zKxI8ugx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+:::warning[注意]
+用来提醒一些容易踩的坑。
+:::
 
-[^what-is-markdown]: <https://github.github.com/gfm/#what-is-markdown->
+## 数学公式
+
+支持 KaTeX：行内公式如 $e^{i\pi} + 1 = 0$，块级公式如
+
+$$
+\int_{-\infty}^{+\infty} e^{-x^{2}}\,\mathrm{d}x = \sqrt{\pi}
+$$
+
+## 视频
+
+把 YouTube 或 Bilibili 的视频链接单独放在一行，即可自动嵌入播放器；也可以像下面这样，直接粘贴一段 `<iframe>`：
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oZpYEEcvu5I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+[^gfm]: 本主题遵循 [GitHub Flavored Markdown](https://github.github.com/gfm/) 规范。

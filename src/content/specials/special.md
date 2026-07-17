@@ -1,5 +1,5 @@
 ---
-title: Special
+title: 示例页面
 icon:
   {
     default: "solar:star-fall-broken",
@@ -7,35 +7,25 @@ icon:
     active: "solar:star-fall-bold-duotone",
   }
 published: 2024-11-30
-updated: 2024-11-30
+updated: 2026-07-17
 disabled: true
 index: 9
 ---
 
-## Special Page
+## 示例页面
 
-This is a special page.
+这是一个「独立页面」（Special Page）的示例。
 
-you can add special page by adding `special.md` to the `src/content/specials` directory.
+你可以在 `src/content/specials` 目录下新增 Markdown 文件来创建独立页面。
 
-example:
+例如：在该目录下添加 `about.md`，即可通过访问 `/about` 打开对应页面。
 
-if you add `about.md` to the `src/content/specials` directory, you can access the special page by going to `/about`.
+独立页面的 frontmatter 支持 `title`、`icon`、`published`、`updated`、`index`、`disabled` 等字段。
 
-special page allows `title` `icon` `published` `updated` and `disabled` fields in frontmatter.
+其中 `title` 与 `icon` 为必填，仅用于侧边栏导航项的显示，不会出现在页面正文中。
 
-`title` and `icon` fields are required, only used to display the title and icon of the sidebar item, not displayed in page.
+`published` 与 `updated` 为可选；若未填写，则不显示。
 
-`published` and `updated` fields are optional, if not provided, they will not be displayed.
+`index` 用于控制导航排序，数值越小越靠前。
 
-`disabled` field is optional, if not provided, it will be `false`. if `disabled` field is `true`, the special page will not be displayed on production (it will still be displayed in development)
-
-this is the frontmatter for the this (`special.md`) file:
-
-```yaml
----
-published: 2024-11-30
-updated: 2024-11-30
-disabled: true
----
-```
+`disabled` 为可选，默认 `false`；若设为 `true`，该页面在生产环境不会显示（开发环境仍可见）——本页正是如此。
