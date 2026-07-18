@@ -23,6 +23,7 @@ index: 4
 <style>
 .nav-quick{display:grid;grid-template-columns:repeat(12,1fr);gap:.7rem;margin:1.2rem 0 2.4rem;}
 .nav-quick-item{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:1;border-radius:.7rem;background:var(--charm-card-background);border:1px solid var(--charm-contrast-color-3);text-decoration:none;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;}
+.nav-quick-item::after{content:none!important;}
 .nav-quick-item:hover{transform:translateY(-3px);box-shadow:0 6px 16px #00000018;border-color:var(--charm-highlight-color);}
 .nav-quick-item .ni{width:56%;height:56%;object-fit:contain;color:var(--charm-font-color);transition:color .2s ease;}
 .nav-quick-item:hover .ni{color:var(--charm-highlight-color);}

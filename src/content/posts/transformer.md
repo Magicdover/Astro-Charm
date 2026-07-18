@@ -1,5 +1,5 @@
 ---
-title: Transformer：一个「注意力」如何改变了 NLP
+title: Transformer：「注意力」如何改变了 NLP
 published: 2026-05-24
 description: 2017 年一篇名为《Attention Is All You Need》的论文，重写了自然语言处理的规则。
 tags: [NLP, Transformer, 深度学习]

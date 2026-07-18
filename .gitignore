@@ -29,3 +29,6 @@ pnpm-debug.log*
 !/public/wallpapers/**/
 !/public/wallpapers/**/astro-*
 
+# 个人参考图，仅本地查看、不入库
+/文字定位.png
+

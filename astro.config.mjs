@@ -56,6 +56,9 @@ const charmEnhance = {
 export default defineConfig({
   // 已在 GitHub + Vercel 部署，此处填正式域名，用于 sitemap 与 RSS 的绝对链接。
   site: "https://astro-charm-two.vercel.app",
+  // 路径不带尾斜杠：否则 Astro.url.pathname 为「/about/」，与主题侧栏 active 判断
+  // 「=== /about」（无尾斜杠）不匹配，导致切到某页后左侧对应导航图标不进入选中态。
+  trailingSlash: "never",
   // 开启鼠标悬停预取，站内跳转更顺滑（主题官方推荐）。
   prefetch: true,
   integrations: [

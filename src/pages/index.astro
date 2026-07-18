@@ -133,28 +133,26 @@ const fmt = (d: Date) => `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`
   }
 
   .item-container {
-    padding: 0.5em 1em;
+    padding: 0.5em 1em 0.5em 0.8em;
+    /* 左竖条始终预留 0.2em（透明），hover 只变颜色，文字不位移；padding-left 补偿以保持原有对齐 */
+    border-left: 0.2em solid transparent;
     border-radius: 0.5rem;
     transition:
       background 0.3s ease,
       box-shadow 0.3s ease,
-      border 0s linear;
-
-    /* 首页文章较多，屏幕外的卡片跳过渲染，滚动更顺滑 */
-    content-visibility: auto;
-    contain-intrinsic-size: auto 4.5rem;
+      border-color 0.15s linear;
 
     &:hover {
       background-color: var(--charm-highlight-color-1);
       box-shadow:
         3px 2px 2em 0.5em var(--charm-highlight-color-1),
         inset -2px -3px 2em 0.1em var(--charm-highlight-color-1);
-      border-left: 0.2em solid var(--charm-highlight-color);
+      border-left-color: var(--charm-highlight-color);
 
       transition:
         background 0.5s ease,
         box-shadow 0.3s ease,
-        border 0.1s linear;
+        border-color 0.15s linear;
     }
 
     display: flex;

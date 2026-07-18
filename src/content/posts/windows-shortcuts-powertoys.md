@@ -1,7 +1,7 @@
 ---
 title: Windows 效率手册：快捷键与 PowerToys
 published: 2026-06-26
-description: 一批真正高频的 Windows 快捷键，加上微软官方神器 PowerToys 的实用功能，让你的鼠标少跑一半路。
+description: 一批高频的 Windows 快捷键，加上官方神器 PowerToys 的实用功能，让鼠标少跑一半路。
 tags: [Windows, 效率, 工具]
 category: 技术
 ---

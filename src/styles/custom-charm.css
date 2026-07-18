@@ -47,6 +47,36 @@
    导致正文左右跳动。始终为滚动条预留空槽，宽度即恒定。 */
 html.charm {
   scrollbar-gutter: stable;
+  /* 滚动条（Firefox）：轨道透明，滑块随主题强调色变化 */
+  scrollbar-width: thin;
+  scrollbar-color: var(--charm-highlight-color) transparent;
+}
+
+/* 滚动条（WebKit / Chromium / Edge）：轨道全透明，滑块用主题强调色，随配色切换。
+   适用于主页面与内部可滚动元素（代码块等）。 */
+html.charm::-webkit-scrollbar,
+html.charm *::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+html.charm::-webkit-scrollbar-track,
+html.charm *::-webkit-scrollbar-track,
+html.charm::-webkit-scrollbar-corner,
+html.charm *::-webkit-scrollbar-corner {
+  background: transparent;
+}
+html.charm::-webkit-scrollbar-thumb,
+html.charm *::-webkit-scrollbar-thumb {
+  background-color: var(--charm-highlight-color);
+  border-radius: 10px;
+  /* 透明描边收窄滑块，两侧留白更精致 */
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+html.charm::-webkit-scrollbar-thumb:hover,
+html.charm *::-webkit-scrollbar-thumb:hover {
+  border-width: 1px;   /* hover 时滑块略粗 */
 }
 
 /* ===== 3. 中文正文排版 =====
@@ -582,4 +612,14 @@ html.charm article .rk-tag {
 }
 @media (width <= 34rem) {
   html.charm article .rk-tag { display: none; }
+}
+
+/* 列表卡片 hover 的左竖条：始终预留 0.2em（透明）、hover 只变色，避免 hover 时文字整体右移。
+   （首页由 index.astro 自身处理；这里覆盖主题 PostList，用于 tag / 分类等列表页。） */
+html.charm .post-list .item-container {
+  border-left: 0.2em solid transparent;
+  padding-left: 0.8em;
+}
+html.charm .post-list .item-container:hover {
+  border-left-color: var(--charm-highlight-color);
 }
