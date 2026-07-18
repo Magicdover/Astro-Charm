@@ -1,8 +1,15 @@
+@import "./katex.min.css";
+
 /* =========================================================================
    似水流年 · 自定义样式
    由主题自动加载（astro-charm 检测到 src/styles/custom-charm.css 即引入）
    本文件为「非分层」样式，优先级高于主题 @layer charm，可安全覆盖主题变量。
    ========================================================================= */
+
+/* KaTeX：只保留渲染好的视觉部分，彻底隐藏供无障碍读屏用的 MathML，
+   避免出现「渲染公式 + 原始文本」重影。 */
+.katex-mathml { display: none !important; }
+.katex { font-size: 1.05em; }
 
 /* ===== 1. 右侧装饰背景图（宽屏显示，已改用 webp 更适配 Chrome，png 作为回退保留） ===== */
 @media (width >= 52rem) {
@@ -13,7 +20,7 @@
     &::before {
       content: "";
       /* 背景图由右下角设置面板切换（取自 public/backgrounds/，默认第一张） */
-      background-image: var(--charm-bg-image, url("/backgrounds/Promeia-1.webp"));
+      background-image: var(--charm-bg-image, url("/backgrounds/02-1.webp"));
       background-size: contain;
       background-repeat: no-repeat;
       background-position: right;
@@ -24,6 +31,9 @@
       height: 100%;
       opacity: 0.6;
       z-index: -1;
+      /* 提升为独立合成层：滚动时背景不再随内容重绘，滑动更顺滑 */
+      transform: translateZ(0);
+      will-change: transform;
     }
   }
 
@@ -203,6 +213,108 @@ html.charm[data-palette="sakura"].dark {
   --charm-contrast-color-1: #4d35401a;
 }
 
+/* ---------- 紫韵 ---------- */
+html.charm[data-palette="grape"] {
+  --charm-highlight-color: #7a5bb0;
+  --charm-highlight-color-2: #7a5bb033;
+  --charm-highlight-color-1: #7a5bb01a;
+  --charm-background-color: #efeaf7;
+  --charm-font-color: #3b3350;
+  --charm-github-card-background: #f6f3fb;
+  --charm-card-background: #f6f3fb;
+  --charm-card-background-8: #f6f3fbcc;
+  --charm-contrast-color: #cdbfe6;
+  --charm-contrast-color-8: #cdbfe6cc;
+  --charm-contrast-color-5: #cdbfe680;
+  --charm-contrast-color-3: #cdbfe64d;
+  --charm-contrast-color-2: #cdbfe633;
+  --charm-contrast-color-1: #cdbfe61a;
+}
+html.charm[data-palette="grape"].dark {
+  --charm-highlight-color: #a98cdc;
+  --charm-highlight-color-2: #a98cdc33;
+  --charm-highlight-color-1: #a98cdc1a;
+  --charm-background-color: #1e1830;
+  --charm-font-color: #e7e0f4ee;
+  --charm-github-card-background: #29203f;
+  --charm-card-background: #29203f;
+  --charm-card-background-8: #29203fcc;
+  --charm-contrast-color: #453a63;
+  --charm-contrast-color-8: #453a63cc;
+  --charm-contrast-color-5: #453a6380;
+  --charm-contrast-color-3: #453a634d;
+  --charm-contrast-color-2: #453a6333;
+  --charm-contrast-color-1: #453a631a;
+}
+
+/* ---------- 黛墨 ---------- */
+html.charm[data-palette="ink"] {
+  --charm-highlight-color: #41505f;
+  --charm-highlight-color-2: #41505f33;
+  --charm-highlight-color-1: #41505f1a;
+  --charm-background-color: #eceff2;
+  --charm-font-color: #2b333b;
+  --charm-github-card-background: #f5f7f9;
+  --charm-card-background: #f5f7f9;
+  --charm-card-background-8: #f5f7f9cc;
+  --charm-contrast-color: #bcc6d0;
+  --charm-contrast-color-8: #bcc6d0cc;
+  --charm-contrast-color-5: #bcc6d080;
+  --charm-contrast-color-3: #bcc6d04d;
+  --charm-contrast-color-2: #bcc6d033;
+  --charm-contrast-color-1: #bcc6d01a;
+}
+html.charm[data-palette="ink"].dark {
+  --charm-highlight-color: #8fa3b8;
+  --charm-highlight-color-2: #8fa3b833;
+  --charm-highlight-color-1: #8fa3b81a;
+  --charm-background-color: #191d22;
+  --charm-font-color: #dde3e9ee;
+  --charm-github-card-background: #23282f;
+  --charm-card-background: #23282f;
+  --charm-card-background-8: #23282fcc;
+  --charm-contrast-color: #3a434e;
+  --charm-contrast-color-8: #3a434ecc;
+  --charm-contrast-color-5: #3a434e80;
+  --charm-contrast-color-3: #3a434e4d;
+  --charm-contrast-color-2: #3a434e33;
+  --charm-contrast-color-1: #3a434e1a;
+}
+
+/* ---------- 蜜橙 ---------- */
+html.charm[data-palette="amber"] {
+  --charm-highlight-color: #c2721f;
+  --charm-highlight-color-2: #c2721f33;
+  --charm-highlight-color-1: #c2721f1a;
+  --charm-background-color: #fdf0e2;
+  --charm-font-color: #4a3720;
+  --charm-github-card-background: #fef6ec;
+  --charm-card-background: #fef6ec;
+  --charm-card-background-8: #fef6eccc;
+  --charm-contrast-color: #e6c9a3;
+  --charm-contrast-color-8: #e6c9a3cc;
+  --charm-contrast-color-5: #e6c9a380;
+  --charm-contrast-color-3: #e6c9a34d;
+  --charm-contrast-color-2: #e6c9a333;
+  --charm-contrast-color-1: #e6c9a31a;
+}
+html.charm[data-palette="amber"].dark {
+  --charm-highlight-color: #e8a24e;
+  --charm-highlight-color-2: #e8a24e33;
+  --charm-highlight-color-1: #e8a24e1a;
+  --charm-background-color: #2a2013;
+  --charm-font-color: #f1e4d2ee;
+  --charm-github-card-background: #342917;
+  --charm-card-background: #342917;
+  --charm-card-background-8: #342917cc;
+  --charm-contrast-color: #5f4a2c;
+  --charm-contrast-color-8: #5f4a2ccc;
+  --charm-contrast-color-5: #5f4a2c80;
+  --charm-contrast-color-3: #5f4a2c4d;
+  --charm-contrast-color-2: #5f4a2c33;
+  --charm-contrast-color-1: #5f4a2c1a;
+}
+
 /* =========================================================================
    6. 背景特效画布（全屏，位于背景图之上、内容之下）
    ========================================================================= */
@@ -216,137 +328,158 @@ html.charm[data-palette="sakura"].dark {
 }
 
 /* =========================================================================
-   7. 右下角外观设置面板（配色 / 背景图 / 背景特效，由注入脚本动态创建）
-   自身使用主题变量着色，因此在任何配色下都清晰可读。
+   7. 右下角外观设置（齿轮与左侧底部图标同高、同尺寸；点击后扇形等间距展开）
+   动作全部为透明图标（无背景）：✨特效 · 🖼背景 · 🎨主题 · ⟲复原
    ========================================================================= */
 #charm-settings {
   position: fixed;
-  right: 1.25rem;
-  bottom: 1.25rem;
+  right: 1.5rem;
+  bottom: 4rem;            /* 与左侧底部图标同一水平线（如需微调改这一行） */
   z-index: 60;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.6rem;
-  font-size: 0.86rem;
-}
-
-#charm-settings .cs-toggle {
-  width: 2.9rem;
-  height: 2.9rem;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  color: var(--charm-font-light-color, #fff);
-  background: var(--charm-highlight-color);
-  box-shadow: 0 4px 14px #00000026;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease, box-shadow 0.25s ease;
-}
-#charm-settings .cs-toggle:hover {
-  transform: rotate(90deg) scale(1.06);
-  box-shadow: 0 6px 20px #00000033;
-}
-#charm-settings .cs-toggle svg {
   width: 1.5rem;
   height: 1.5rem;
 }
 
-#charm-settings .cs-panel {
-  display: none;
-  flex-direction: column;
-  gap: 0.7rem;
-  width: 15.5rem;
-  max-height: 72vh;
-  overflow-y: auto;
-  padding: 0.9rem;
-  border-radius: 0.9rem;
-  background: var(--charm-card-background);
-  border: 1px solid var(--charm-contrast-color-3);
-  box-shadow: 0 10px 30px #00000026;
-  transform-origin: bottom right;
-}
-#charm-settings.open .cs-panel {
-  display: flex;
-  animation: cs-pop 0.18s ease;
-}
-@keyframes cs-pop {
-  from { opacity: 0; transform: translateY(8px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-#charm-settings .cs-h {
-  font-size: 0.74rem;
-  letter-spacing: 0.08em;
-  font-weight: 700;
-  color: var(--charm-highlight-color);
-  margin-bottom: 0.45rem;
-  opacity: 0.9;
-}
-#charm-settings .cs-body {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-}
-#charm-settings .cs-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.55rem 0.3rem 0.4rem;
-  border: 1px solid transparent;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  white-space: nowrap;
-  color: var(--charm-font-color);
-  background: var(--charm-contrast-color-1);
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-#charm-settings .cs-item:hover {
-  background: var(--charm-highlight-color-1);
-}
-#charm-settings .cs-item .cs-dot {
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  flex-shrink: 0;
-  border: 1px solid #0000001a;
-  background-size: cover;
-}
-#charm-settings .cs-item.on {
-  background: var(--charm-highlight-color-2);
-  border-color: var(--charm-highlight-color);
-  font-weight: 600;
-}
-#charm-settings .cs-empty {
-  font-size: 0.8rem;
-  opacity: 0.7;
-  padding: 0.2rem;
-}
-
-/* =========================================================================
-   8. 右上角关闭按钮（仅内容页显示，点击带动画返回导航）
-   与首页 search 按钮不在同一页，因此不会重合。
-   ========================================================================= */
-#charm-close {
-  position: fixed;
-  top: 0.6rem;
-  right: 1rem;
-  z-index: 60;
-  width: 2.3rem;
-  height: 2.3rem;
-  border: 1px solid var(--charm-contrast-color-3);
-  border-radius: 50%;
+/* 齿轮与动作图标：透明、无背景、1.5rem，与侧栏图标完全一致 */
+#charm-settings .cs-gear,
+#charm-settings .cs-act {
+  border: none;
+  background: transparent;
+  padding: 0;
   cursor: pointer;
   color: var(--charm-font-color);
-  background: var(--charm-card-background-8);
-  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.6;
-  transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+#charm-settings .cs-gear svg,
+#charm-settings .cs-act svg { width: 1.5rem; height: 1.5rem; }
+
+#charm-settings .cs-gear {
+  position: relative;
+  z-index: 3;
+  width: 1.5rem;
+  height: 1.5rem;
+  opacity: 0.55;
+  transition: opacity 0.3s ease, transform 0.4s ease, color 0.3s ease;
+}
+#charm-settings .cs-gear:hover,
+#charm-settings.open .cs-gear { opacity: 1; color: var(--charm-highlight-color); }
+#charm-settings.open .cs-gear { transform: rotate(90deg); }
+
+/* 扇形：4 个动作沿四分之一圆弧、每 30° 一个，等间距。
+   最上（特效）与齿轮竖直对齐；最左（复原）与齿轮水平对齐。 */
+#charm-settings .cs-actions { position: absolute; left: 50%; top: 50%; }
+#charm-settings .cs-act {
+  position: absolute;
+  left: -0.75rem;
+  top: -0.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  opacity: 0;
+  transform: scale(0.3);
+  pointer-events: none;
+  transition: transform 0.34s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.22s ease, color 0.2s ease;
+}
+#charm-settings .cs-act:hover { color: var(--charm-highlight-color); }
+#charm-settings.open .cs-act { opacity: 0.7; pointer-events: auto; }
+#charm-settings.open .cs-act:hover { opacity: 1; }
+#charm-settings.open .cs-act:nth-child(1) { transform: translate(0, -5rem); transition-delay: 0.03s; }        /* 特效（正上，竖直对齐） */
+#charm-settings.open .cs-act:nth-child(2) { transform: translate(-2.5rem, -4.33rem); transition-delay: 0.06s; } /* 背景 */
+#charm-settings.open .cs-act:nth-child(3) { transform: translate(-4.33rem, -2.5rem); transition-delay: 0.09s; } /* 主题 */
+#charm-settings.open .cs-act:nth-child(4) { transform: translate(-5rem, 0); transition-delay: 0.12s; }        /* 复原（正左，水平对齐） */
+#charm-settings .cs-act.cs-reset { color: var(--charm-highlight-color); }
+
+/* 主题弹选：出现在主题按钮左侧的一排色板 */
+#charm-settings .cs-palette {
+  position: absolute;
+  right: calc(100% + 0.6rem);
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  width: 8.2rem;
+  padding: 0.5rem;
+  border-radius: 0.7rem;
+  background: var(--charm-card-background);
+  border: 1px solid var(--charm-contrast-color-3);
+  box-shadow: 0 8px 22px #00000026;
+}
+#charm-settings .cs-palette.open { display: flex; animation: cs-pop 0.18s ease; }
+@keyframes cs-pop {
+  from { opacity: 0; transform: translateY(-50%) scale(0.9); }
+  to   { opacity: 1; transform: translateY(-50%) scale(1); }
+}
+#charm-settings .cs-sw {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid #0000001a;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease;
+}
+#charm-settings .cs-sw:hover { transform: scale(1.15); }
+#charm-settings .cs-sw.on {
+  box-shadow: 0 0 0 2px var(--charm-card-background), 0 0 0 4px var(--charm-highlight-color);
+}
+
+/* 切换提示：出现在齿轮左侧的小标签 */
+#charm-settings .cs-toast {
+  position: absolute;
+  right: calc(100% + 0.8rem);
+  top: 50%;
+  transform: translate(8px, -50%);
+  white-space: nowrap;
+  padding: 0.35rem 0.7rem;
+  border-radius: 0.5rem;
+  background: var(--charm-card-background);
+  border: 1px solid var(--charm-contrast-color-3);
+  color: var(--charm-font-color);
+  box-shadow: 0 4px 12px #00000022;
+  font-size: 0.82rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+#charm-settings .cs-toast.show { opacity: 1; transform: translate(0, -50%); }
+
+/* =========================================================================
+   8. 左上角时钟（含农历，精确到秒）+ 右上角关闭按钮
+   时钟与右上角 search / 关闭按钮同高对齐。
+   ========================================================================= */
+#charm-clock {
+  position: fixed;
+  top: 0.5rem;
+  left: clamp(2rem, 8vw, 12rem);   /* 与左侧栏（导航图标/介绍）左边缘对齐 */
+  z-index: 60;
+  color: var(--charm-font-color);
+  opacity: 0.55;
+  line-height: 1.35;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+#charm-clock .ck-1 { font-size: 0.9rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+#charm-clock .ck-2 { font-size: 0.74rem; opacity: 0.85; }
+
+#charm-close {
+  position: fixed;
+  top: 0.5rem;
+  right: 1rem;
+  z-index: 60;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  color: var(--charm-font-color);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  transition: opacity 0.3s ease, background-color 0.4s ease, color 0.3s ease, transform 0.3s ease;
 }
 #charm-close:hover {
   opacity: 1;
@@ -354,26 +487,99 @@ html.charm[data-palette="sakura"].dark {
   background: var(--charm-contrast-color-2);
   transform: rotate(90deg);
 }
-#charm-close svg {
-  width: 1.2rem;
-  height: 1.2rem;
+#charm-close svg { width: 1.5rem; height: 1.5rem; }
+
+/* 关闭过渡：当前页整体「消解」淡出，露出下面的上一层（其保持原位置、不重新入场）。
+   scroll-behavior:auto 让返回时瞬间定位到原滚动位置，不再从头平滑滑动过去。 */
+html.charm { scroll-behavior: auto; }
+html.charm-dissolving::view-transition-old(root) { animation: charm-dissolve 0.3s ease forwards; }
+html.charm-dissolving::view-transition-new(root) { animation: none !important; }
+@keyframes charm-dissolve {
+  to { opacity: 0; filter: blur(5px); }
 }
 
-/* 关闭动画：内容淡出并轻微缩小，随后跳转回导航 */
-html.charm body.charm-closing main {
-  animation: charm-close-out 0.34s ease forwards;
-}
-@keyframes charm-close-out {
-  to { opacity: 0; transform: scale(0.97) translateY(8px); }
+/* =========================================================================
+   9. 侧栏布局：导航 + 个人介绍整体在纵向居中，并略向下避开左上角流星
+   ========================================================================= */
+html.charm .side .container {
+  flex: 1 1 auto;
+  height: auto;
+  align-items: center;
+  padding-top: 12vh;       /* 整体下移、避开左上角流星（如需微调改这一行） */
 }
 
 @media (width <= 42rem) {
-  #charm-settings {
-    right: 0.9rem;
-    bottom: 0.9rem;
-  }
-  #charm-close {
-    top: 0.5rem;
-    right: 0.7rem;
-  }
+  #charm-settings { right: 1rem; bottom: 1rem; }
+  #charm-close { top: 0.5rem; right: 0.7rem; }
+  #charm-clock { display: none; }
+}
+
+/* =========================================================================
+   10. 文章内的「排行榜」可视化（居中，金银铜徽章 + 进度条，随配色自适应）
+   用法见 posts 里的排行文章：<div class="rk"><div class="rk-row">…</div></div>
+   ========================================================================= */
+html.charm article .rk {
+  max-width: 36rem;
+  margin: 1.7rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+html.charm article .rk-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 0.6rem;
+  background: var(--charm-card-background);
+  border: 1px solid var(--charm-contrast-color-3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+html.charm article .rk-row:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 14px #00000018;
+}
+html.charm article .rk-no {
+  flex-shrink: 0;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #fff;
+  background: var(--charm-contrast-color);
+}
+html.charm article .rk-row:nth-child(1) .rk-no { background: linear-gradient(135deg, #f7c948, #e0a80c); }
+html.charm article .rk-row:nth-child(2) .rk-no { background: linear-gradient(135deg, #cdd2d7, #97a0a8); }
+html.charm article .rk-row:nth-child(3) .rk-no { background: linear-gradient(135deg, #dda36a, #b06f30); }
+html.charm article .rk-name {
+  font-weight: 700;
+  white-space: nowrap;
+  min-width: 5.5rem;
+}
+html.charm article .rk-bar {
+  flex: 1;
+  height: 0.5rem;
+  min-width: 3rem;
+  border-radius: 1rem;
+  background: var(--charm-contrast-color-2);
+  overflow: hidden;
+}
+html.charm article .rk-bar > i {
+  display: block;
+  height: 100%;
+  border-radius: 1rem;
+  background: var(--charm-highlight-color);
+}
+html.charm article .rk-tag {
+  flex-shrink: 0;
+  font-size: 0.76rem;
+  opacity: 0.72;
+  white-space: nowrap;
+}
+@media (width <= 34rem) {
+  html.charm article .rk-tag { display: none; }
 }

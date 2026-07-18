@@ -9,7 +9,7 @@ icon:
   }
 published: 2026-01-10
 updated: 2026-07-17
-index: 7
+index: 8
 ---
 
 # 友情链接
@@ -25,7 +25,7 @@ index: 7
 .fl-card.disabled{opacity:.6;border-style:dashed;}
 </style>
 
-<div class="fl-grid"><a class="fl-card" href="https://astro.build" target="_blank" rel="noopener"><div class="fl-name">Astro</div><div class="fl-desc">本站所用的现代前端框架，内容站点的利器。</div></a><a class="fl-card" href="https://github.com/Yuhanawa/astro-charm" target="_blank" rel="noopener"><div class="fl-name">Charm 主题</div><div class="fl-desc">本站所用的博客主题，简洁又好用。</div></a><a class="fl-card" href="https://linux.do" target="_blank" rel="noopener"><div class="fl-name">LINUX DO</div><div class="fl-desc">新的理想型社区，折腾者的乐园。</div></a><span class="fl-card disabled"><div class="fl-name">虚位以待</div><div class="fl-desc">期待你的名字，出现在这里。</div></span></div>
+<div class="fl-grid"><a class="fl-card" href="https://astro.build" target="_blank" rel="noopener"><div class="fl-name">Astro</div><div class="fl-desc">本站所用的现代前端框架，内容站点的利器。</div></a><a class="fl-card" href="https://github.com/Yuhanawa/astro-charm" target="_blank" rel="noopener"><div class="fl-name">Charm 主题</div><div class="fl-desc">本站所用的博客主题，简洁、优雅、轻快又好上手。</div></a><a class="fl-card" href="https://linux.do" target="_blank" rel="noopener"><div class="fl-name">LINUX DO</div><div class="fl-desc">新的理想型社区，折腾者与数码极客们的快乐老家。</div></a><span class="fl-card disabled"><div class="fl-name">虚位以待</div><div class="fl-desc">期待你的名字，出现在这里。</div></span></div>
 
 ## 想和我交换友链？
 

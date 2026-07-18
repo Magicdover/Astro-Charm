@@ -3,22 +3,41 @@ import { defineConfig } from 'astro/config';
 import fs from 'node:fs';
 import charm from "astro-charm";
 
-/* 构建时读取图片目录，自动生成背景图与壁纸列表（按文件名排序）。
-   之后往 public/backgrounds/ 或 public/wallpapers/ 里增删图片，重新构建即可生效。 */
+/* 构建时读取图片目录，自动生成背景图与壁纸列表。
+   背景：public/backgrounds/ 平铺。
+   壁纸：public/wallpapers/ 下按子目录分类；只收录带 astro- 前缀的「精品图」
+   （规则见 .gitignore：只有 astro- 前缀的壁纸才入库上传，其余仅保留在本地）。 */
+const IMG_RE = /\.(webp|jpe?g|png|gif|avif|bmp)$/i;
+function typeOf(f) { return /\.gif$/i.test(f) ? "gif" : "image"; }
 function listImages(dir) {
   try {
-    return fs.readdirSync(dir).filter((f) => /\.(webp|jpe?g|png|gif|avif)$/i.test(f)).sort();
+    return fs.readdirSync(dir).filter((f) => IMG_RE.test(f)).sort();
   } catch (e) {
     return [];
   }
 }
+const wpOk = (f) => /^astro-/i.test(f) && IMG_RE.test(f);
+function listWallpapers(dir) {
+  const groups = [];
+  try {
+    const top = fs.readdirSync(dir, { withFileTypes: true });
+    const loose = top.filter((e) => e.isFile() && wpOk(e.name)).map((e) => e.name).sort();
+    if (loose.length) groups.push({ cat: "未分类", items: loose.map((n) => ({ n, t: typeOf(n) })) });
+    top.filter((e) => e.isDirectory()).sort((a, b) => a.name.localeCompare(b.name)).forEach((d) => {
+      const files = fs.readdirSync(`${dir}/${d.name}`).filter(wpOk).sort();
+      if (files.length) groups.push({ cat: d.name, items: files.map((n) => ({ n, t: typeOf(n) })) });
+    });
+  } catch (e) {}
+  return groups;
+}
 const backgrounds = listImages('./public/backgrounds');
-const wallpapers = listImages('./public/wallpapers');
+const wallpapers = listWallpapers('./public/wallpapers');
 
-/* head-inline：注入图片清单，并在刷新前应用配色与背景，避免闪烁（FOUC）。 */
+/* head-inline：注入图片清单，并在刷新前应用配色与背景，避免闪烁（FOUC）。
+   KaTeX 样式已通过 custom-charm.css 的 @import 打包，无需在此注入。 */
 const preload =
   `window.__CHARM=${JSON.stringify({ backgrounds, wallpapers })};` +
-  `(function(){try{var r=document.documentElement;var p=localStorage.getItem('charm-palette');if(p)r.setAttribute('data-palette',p);var b=localStorage.getItem('charm-bg')||(window.__CHARM.backgrounds[0]||'');if(b)r.style.setProperty('--charm-bg-image','url("/backgrounds/'+b+'")');}catch(e){}})();`;
+  `(function(){try{var r=document.documentElement;var p=localStorage.getItem('charm-palette');if(p)r.setAttribute('data-palette',p);var b=localStorage.getItem('charm-bg')||(window.__CHARM.backgrounds[0]||'');if(b)r.style.setProperty('--charm-bg-image','url(\"/backgrounds/'+encodeURIComponent(b)+'\")');}catch(e){}})();`;
 
 /* page：站点增强脚本（设置面板 + 关闭按钮 + 背景特效），源码见 src/enhance/enhance.js。 */
 const enhance = fs.readFileSync('./src/enhance/enhance.js', 'utf8');
@@ -41,6 +60,9 @@ export default defineConfig({
   prefetch: true,
   integrations: [
     charm({
+      // 禁用主题自带首页（路由 /），改用项目 src/pages/index.astro 覆盖：
+      // 一次性展示全部文章（不分页）+ 底部统计。避免二者路由冲突。
+      pages: { "/": false },
       config: {
         "lang": "zh-CN",
         "title": "似水流年",
@@ -50,7 +72,7 @@ export default defineConfig({
         "side": {
           "title": "似水流年",
           "sub": "代码与诗意的交织",
-          "bio": "文艺青年一枚，热爱编程，用代码书写逻辑之美，用文字记录生活之光。在技术与艺术间寻找平衡，创造属于自己的独特风景。",
+          "bio": "文艺青年一枚，热爱编程，用代码书写逻辑之美，用文字记录生活之光。在技术与艺术间寻找平衡，创造属于自己的独特风景。\n\n白天钻研大模型与氛围编程，着迷于让机器读懂人的偏好；夜里读诗、看电影、听老歌，也追一追世界杯球赛与新出的游戏。在极客与文艺的交界处，把寻常的日子，过成自己偏爱的模样。",
           "navHome": {
             "title": "首页"
           },

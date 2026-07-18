@@ -22,3 +22,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# 壁纸：仅上传带 astro- 前缀的「精品图」，其余（含大图/原图）仅保留在本地、不入库。
+# 想让某张图上线，把它重命名成 astro- 开头即可。
+/public/wallpapers/**
+!/public/wallpapers/**/
+!/public/wallpapers/**/astro-*
+

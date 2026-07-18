@@ -1,7 +1,7 @@
 ---
 title: 排版与 Markdown 示例
 published: 2024-12-02
-updated: 2026-07-17
+updated: 2024-12-02
 description: 一篇用来展示本主题排版能力的示例：强调、列表、代码、引用、提示框、公式与视频。
 tags: [Markdown, 示例]
 category: 示例

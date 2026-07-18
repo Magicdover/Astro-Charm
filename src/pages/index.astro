@@ -1,0 +1,261 @@
+---
+/* 项目级首页覆盖（astro-theme-provider 支持同名路由覆盖主题注入的 /）。
+   目的：一次性服务端渲染「全部文章」（不分页、无翻页器），并在底部加简易统计。
+   卡片标记与样式直接沿用主题 PostList，确保与 tag / category 等列表页视觉完全一致。
+   图标不经 astro-icon（项目无该直接依赖），改为构建时内联 @iconify-json/solar
+   的原始 SVG，与主题所用图标同款。 */
+import { HomeLayout } from "charm:layouts";
+import { HomePageHeader } from "charm:components";
+import { getCollection } from "astro:content";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const solar = require("@iconify-json/solar/icons.json");
+const icon = (name: string) => {
+  const ic = solar.icons[name];
+  if (!ic) return "";
+  const w = ic.width || solar.width || 24;
+  const h = ic.height || solar.height || 24;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}">${ic.body}</svg>`;
+};
+const calSvg = icon("calendar-date-bold-duotone");
+const bmSvg = icon("bookmark-bold-duotone");
+const tagSvg = icon("tag-bold-duotone");
+
+/* 与主题 getPostEntries 相同的过滤与排序：隐藏文章不显示，生产环境排除草稿，按更新/发布时间倒序。 */
+const entries = (
+  await getCollection(
+    "posts",
+    ({ data }) =>
+      !data.hidden && (import.meta.env.PROD ? data.draft !== true : true),
+  )
+).sort(
+  (a, b) =>
+    (b.data.updated ?? b.data.published).valueOf() -
+    (a.data.updated ?? a.data.published).valueOf(),
+);
+
+/* 底部简易统计：篇数、累计汉字数、最早一篇、最近一篇。 */
+const byPub = [...entries].sort(
+  (a, b) => a.data.published.valueOf() - b.data.published.valueOf(),
+);
+const earliest = byPub[0];
+const latest = entries[0];
+let hanzi = 0;
+for (const e of entries) hanzi += (e.body.match(/\p{Script=Han}/gu) || []).length;
+const wordText = hanzi >= 10000 ? Math.round(hanzi / 1000) / 10 + " 万字" : hanzi + " 字";
+const fmt = (d: Date) => `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
+---
+
+<HomeLayout useH1>
+  <HomePageHeader />
+  <div class="post-list">
+    {
+      entries.map((entry) => (
+        <div class="item-container">
+          <div class="item">
+            <a
+              href={`/posts/${entry.slug}`}
+              title={entry.data.title}
+              class="link-animate"
+              data-astro-prefetch="hover"
+            >
+              <h3>{entry.data.title}</h3>
+            </a>
+            <p class="description">{entry.data.description}</p>
+            <div class="meta">
+              <span>
+                <Fragment set:html={calSvg} />
+                <time
+                  datetime={(
+                    entry.data.updated || entry.data.published
+                  ).toISOString()}
+                >
+                  {(entry.data.updated || entry.data.published).toLocaleDateString()}
+                </time>
+              </span>
+              {entry.data.category && (
+                <span>
+                  <Fragment set:html={bmSvg} />
+                  <a href={`/categories/${entry.data.category}`}>
+                    {entry.data.category}
+                  </a>
+                </span>
+              )}
+              {entry.data.tags && entry.data.tags.length > 0 && (
+                <span>
+                  <Fragment set:html={tagSvg} />
+                  {entry.data.tags.slice(0, 3).map((tag, i) => (
+                    <span class="post-list-tag-item">
+                      {i !== 0 && ", "}
+                      <a href={`/tags/${tag}`}>{tag}</a>
+                    </span>
+                  ))}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      ))
+    }
+    <div class="home-stats">
+      <span class="hs-item">共 <b>{entries.length}</b> 篇文章</span>
+      {hanzi > 0 && <span class="hs-item">累计 <b>{wordText}</b></span>}
+      {earliest && (
+        <span class="hs-item">
+          最早 · {fmt(earliest.data.published)} 《{earliest.data.title}》
+        </span>
+      )}
+      {latest && (
+        <span class="hs-item">
+          最近 · {fmt(latest.data.updated || latest.data.published)} 《{latest.data.title}》
+        </span>
+      )}
+    </div>
+  </div>
+</HomeLayout>
+
+<style>
+  h2 {
+    padding-left: 1em;
+  }
+
+  h3 {
+    display: inline-block;
+    margin: 0;
+    padding: 0.2em 0;
+  }
+
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .item-container {
+    padding: 0.5em 1em;
+    border-radius: 0.5rem;
+    transition:
+      background 0.3s ease,
+      box-shadow 0.3s ease,
+      border 0s linear;
+
+    /* 首页文章较多，屏幕外的卡片跳过渲染，滚动更顺滑 */
+    content-visibility: auto;
+    contain-intrinsic-size: auto 4.5rem;
+
+    &:hover {
+      background-color: var(--charm-highlight-color-1);
+      box-shadow:
+        3px 2px 2em 0.5em var(--charm-highlight-color-1),
+        inset -2px -3px 2em 0.1em var(--charm-highlight-color-1);
+      border-left: 0.2em solid var(--charm-highlight-color);
+
+      transition:
+        background 0.5s ease,
+        box-shadow 0.3s ease,
+        border 0.1s linear;
+    }
+
+    display: flex;
+    flex-direction: row;
+    gap: 0.25rem;
+    justify-content: space-between;
+  }
+
+  .item {
+    .description {
+      margin-top: 0;
+    }
+  }
+
+  .meta {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin: 0.2em 0;
+    overflow: hidden;
+    font-size: 0.95rem;
+    opacity: 0.9;
+
+    span {
+      display: flex;
+      flex-direction: row;
+      gap: 0.25rem;
+      align-items: center;
+      text-wrap: nowrap;
+      transition: all 0.3s ease;
+
+      a {
+        color: inherit;
+        transition: inherit;
+
+        &:hover {
+          color: var(--charm-highlight-color);
+        }
+      }
+
+      time {
+        opacity: 0.9;
+        transition: inherit;
+      }
+
+      a:hover,
+      &:hover time {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+
+      svg {
+        width: 1rem;
+        height: 1rem;
+
+        /* visual alignment */
+        padding-top: 0.1em;
+      }
+    }
+
+    @media (width <= 38rem) {
+      .post-list-tag-item:nth-child(4) {
+        display: none;
+      }
+    }
+
+    @media (width <= 32rem) {
+      .post-list-tag-item:nth-child(3) {
+        display: none;
+      }
+    }
+
+    @media (width <= 28rem) {
+      span:has(.post-list-tag-item) {
+        display: none;
+      }
+    }
+  }
+
+  /* 底部统计条 */
+  .home-stats {
+    margin-top: 1rem;
+    padding-top: 1.4rem;
+    border-top: 1px dashed var(--charm-contrast-color-3);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1.4rem;
+    font-size: 0.9rem;
+    opacity: 0.9;
+    text-align: center;
+  }
+
+  .home-stats .hs-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3rem;
+  }
+
+  .home-stats b {
+    color: var(--charm-highlight-color);
+    font-weight: 700;
+  }
+</style>

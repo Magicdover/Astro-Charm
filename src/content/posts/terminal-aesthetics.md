@@ -42,6 +42,4 @@ curl -sS https://starship.rs/install.sh | sh
 - `ripgrep`（`rg`）代替 `grep`：快到不像话
 - `fzf`：模糊查找，一旦用上就再也离不开
 
-::github{repo="withastro/astro"}
-
 工具从来不是目的，趁手才是。别急着一次装满整屏插件，先从一个别名、一个提示符开始，让终端一点点长成你习惯的模样。
